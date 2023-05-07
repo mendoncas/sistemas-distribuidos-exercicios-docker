@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+    wordpress1:
+        image: wordpress
+        environment:
+            WORDPRESS_DB_USER: usr-wordpress
+            WORDPRESS_DB_PASSWORD: pwd-wordpress
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DB_HOST: wordpress-mysql
+        # ports:
+        #     - 8091:80
+        depends_on:
+            - wordpress-mysql
+        volumes:
+            - ./html:/var/www/html
+
+
+    wordpress2:
+        image: wordpress
+        environment:
+            WORDPRESS_DB_USER: usr-wordpress
+            WORDPRESS_DB_PASSWORD: pwd-wordpress
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DB_HOST: wordpress-mysql
+        # ports:
+        #     - 8091:80
+        depends_on:
+            - wordpress-mysql
+        volumes:
+            - ./html:/var/www/html
+
+
+    wordpress3:
+        image: wordpress
+        environment:
+            WORDPRESS_DB_USER: usr-wordpress
+            WORDPRESS_DB_PASSWORD: pwd-wordpress
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DB_HOST: wordpress-mysql
+        # ports:
+        #     - 8091:80
+        depends_on:
+            - wordpress-mysql
+        volumes:
+            - ./html:/var/www/html
+
+
+    nginx:
+        image: nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx/:/etc/nginx
+            - ./html:/usr/share/nginx/html
+        depends_on:
+            - wordpress1
+            - wordpress2
+            - wordpress3
+
+
+    wordpress-mysql:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: usr-wordpress
+            MYSQL_PASSWORD: pwd-wordpress
+
+    # locust:
+    #     image: locustio/locust
+    #     ports:
+    #         - "8089:8089"
+    #     volumes:
+    #       - ./:/mnt/locust
+    #     command: -f /mnt/locust/locustfile.py 
+
+        # ports:
+        #     - 3306:3306
